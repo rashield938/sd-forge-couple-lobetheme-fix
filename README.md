@@ -1,4 +1,13 @@
-﻿# SD Forge Attention Couple
+## 🧩 Prerequisites & Compatibility
+
+This patch was specifically developed and tested to work with the following setup:
+
+1. **WebUI**: SD-WebUI-Forge (Classic/Haoming version).
+2. **Theme**: [CasanovaSan's Lobe Theme Fork](https://github.com/CasanovaSan/sd-webui-lobe-theme) (Highly recommended over the original for stability).
+
+Using the original Lobe Theme may result in unexpected UI behavior that this patch might not cover.
+ 
+ # SD Forge Attention Couple
 This is an Extension for the Forge Webui, which allows you to ~~generate couples~~ target different conditionings at specific regions. No more color bleeds or mixed features!
 
 > Support [Forge Classic](https://github.com/Haoming02/sd-webui-forge-classic/tree/classic) / [Forge Neo](https://github.com/Haoming02/sd-webui-forge-classic/tree/neo)
