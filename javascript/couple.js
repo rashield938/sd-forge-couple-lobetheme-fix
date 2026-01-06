@@ -270,3 +270,28 @@ class ForgeCouple {
 }
 
 onUiLoaded(() => { ForgeCouple.setup(); });
+
+/**
+ * LOBE THEME COMPATIBILITY PATCH - by rashield938
+ * Fixes UI interference with Lobe Theme dynamic rendering.
+ */
+(function() {
+    function applyLobePatch() {
+        const containers = document.querySelectorAll("#forge_couple_t2i, #forge_couple_i2i");
+        containers.forEach(container => {
+            const bg_btns = container.querySelector(".fc_bg_btns");
+            const preview_img = container.querySelector(".fc_preview_img");
+            if (bg_btns && preview_img && bg_btns.parentElement !== preview_img) {
+                bg_btns.style.cssText = "display:flex !important; position:absolute !important; top:10px !important; right:10px !important; z-index:5000 !important; gap:5px !important; background:var(--background-fill-primary, #222) !important; padding:4px !important; border-radius:6px !important; border:1px solid var(--border-color-primary, #444) !important;";
+                preview_img.appendChild(bg_btns);
+            }
+        });
+    }
+
+    const observer = new MutationObserver(() => {
+        if (document.querySelector('.fc_preview_img')) {
+            applyLobePatch();
+        }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+})();
