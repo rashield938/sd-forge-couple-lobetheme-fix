@@ -270,28 +270,47 @@ class ForgeCouple {
 }
 
 onUiLoaded(() => { ForgeCouple.setup(); });
-
 /**
- * LOBE THEME COMPATIBILITY PATCH - by rashield938
- * Fixes UI interference with Lobe Theme dynamic rendering.
+ * LOBE THEME COMPATIBILITY PATCH
+ * ---------------------------------------------------------
+ * Author: rashield938
+ * Description: Fixes Advanced Mode button visibility and 
+ * canvas rendering issues caused by Lobe Theme's dynamic 
+ * React DOM. Tested on CasanovaSan's Lobe Theme fork.
+ * ---------------------------------------------------------
  */
 (function() {
-    function applyLobePatch() {
+    const patchLobeButtons = () => {
         const containers = document.querySelectorAll("#forge_couple_t2i, #forge_couple_i2i");
         containers.forEach(container => {
             const bg_btns = container.querySelector(".fc_bg_btns");
             const preview_img = container.querySelector(".fc_preview_img");
-            if (bg_btns && preview_img && bg_btns.parentElement !== preview_img) {
-                bg_btns.style.cssText = "display:flex !important; position:absolute !important; top:10px !important; right:10px !important; z-index:5000 !important; gap:5px !important; background:var(--background-fill-primary, #222) !important; padding:4px !important; border-radius:6px !important; border:1px solid var(--border-color-primary, #444) !important;";
-                preview_img.appendChild(bg_btns);
+            
+            if (bg_btns && preview_img) {
+                bg_btns.style.cssText = `
+                    display: flex !important;
+                    position: absolute !important;
+                    top: 10px !important;
+                    right: 10px !important;
+                    z-index: 5000 !important;
+                    gap: 5px !important;
+                    background: var(--background-fill-primary, #222) !important;
+                    padding: 4px !important;
+                    border-radius: 6px !important;
+                    border: 1px solid var(--border-color-primary, #444) !important;
+                `;
+                
+                if (bg_btns.parentElement !== preview_img) {
+                    preview_img.appendChild(bg_btns);
+                }
             }
         });
-    }
+    };
 
-    const observer = new MutationObserver(() => {
-        if (document.querySelector('.fc_preview_img')) {
-            applyLobePatch();
-        }
+    // Usamos window.addEventListener para que corra DESPUÉS de todo lo demás
+    window.addEventListener('load', () => {
+        setTimeout(patchLobeButtons, 2000);
+        const observer = new MutationObserver(patchLobeButtons);
+        observer.observe(document.body, { childList: true, subtree: true });
     });
-    observer.observe(document.body, { childList: true, subtree: true });
 })();
